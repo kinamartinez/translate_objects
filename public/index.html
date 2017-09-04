@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="flowerApp">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Flower app</title>
+</head>
+<body ng-controller='flowerController as flower' class="container">
+<div class="container">
+    <div class="jumbotron">
+        <h1>Hello Welcome to the Flower Guide</h1>
+        <button ng-click="flower.onTranslate()" type="button" class="btn btn-success">Translate into Hebrew</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- <div ng-repeat="item in list.data"> -->
+        <div class="col-md-4 well" ng-repeat="item in flower.flowersData[0].data">
+            <img ng-src="{{item['image link']}}" class="img-responsive img-well">
+            <div>
+                <h3 class="textAlign">{{item.name | uppercase}}</h3>
+                <h4 class="textAlign">{{item['best season']}}</h4>
+            </div>
+        </div>
+
+        <div class="caption">
+            <div class="col-md-4 well" ng-repeat="newWord in flower.filteredWords">
+                <h3 class="textAlign">{{newWord.name | uppercase}}</h3>
+                <h4 class="textAlign">{{newWord.season}}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+</div>
+
+
+<script src="../angular/angular.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
