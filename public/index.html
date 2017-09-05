@@ -11,33 +11,32 @@
     <div class="jumbotron">
         <h1>Hello Welcome to the Flower Guide</h1>
         <button ng-click="flower.onTranslate()" type="button" class="btn btn-success">Translate into Hebrew</button>
+        <button ng-click="flower.onTranslateRussian()" type="button" class="btn btn-success">Translate into Russian</button>
     </div>
 </div>
 
-<div class="row">
+<div ng-hide="!flower.showMe" class="row">
     <div class="col-md-12">
-        <!-- <div ng-repeat="item in list.data"> -->
-        <div class="col-md-4 well" ng-repeat="item in flower.flowersData[0].data">
+        <div class="well col-md-4" ng-repeat="item in flower.wordData">
             <img ng-src="{{item['image link']}}" class="img-responsive img-well">
-            <div>
-                <h3 class="textAlign">{{item.name | uppercase}}</h3>
-                <h4 class="textAlign">{{item['best season']}}</h4>
+            <div class="caption">
+                <h3 class=" textAlign">{{item.name | uppercase}}</h3>
+                <h4 class="textAlign">Best Season: {{item['best season']}}</h4>
             </div>
         </div>
-
-        <div class="caption">
-            <div class="col-md-4 well" ng-repeat="newWord in flower.filteredWords">
-                <h3 class="textAlign">{{newWord.name | uppercase}}</h3>
+    </div>
+</div>
+<div ng-show="!flower.showMe" class="row">
+    <div class="col-md-12">
+        <div class="well col-md-4" ng-repeat="newWord in flower.newFilteredWithImages">
+            <img ng-src="{{newWord['image']}}" class="img-responsive img-well">
+            <div class="caption">
+                <h3 class="textAlign">{{newWord.name}}</h3>
                 <h4 class="textAlign">{{newWord.season}}</h4>
             </div>
         </div>
     </div>
 </div>
-
-
-<div>
-</div>
-
 
 <script src="../angular/angular.js"></script>
 <script src="app.js"></script>

@@ -14,19 +14,21 @@ app.controller('flowerController', function ($http) {
     vm.translationData = translationArr;
 
     vm.onTranslate = translateWords;
+    vm.onTranslateRussian = translateWordsRussian
     vm.wordData = data;
     vm.data2 = data2;
     vm.showMe = true;
-    vm.filteredWords = []
-    // console.log('newValue =>');
-    // console.log(vm.filteredWords);
-
+    vm.filteredWords = [];
+    const images = [];
+    vm.arrImages = images
+    const newFilteredWordsWithImages = [];
+    vm.newFilteredWithImages = newFilteredWordsWithImages
 
     $http.get('http://52.51.81.191:85/getFlowers').then(function (response) {
         vm.list = response.data;
         flowerArray.push(vm.list);
         vm.flowersData = flowerArray;
-        console.log(vm.flowersData)
+
     });
 
     $http.get('http://52.51.81.191:85/getTranslate').then(function (response) {
@@ -36,23 +38,51 @@ app.controller('flowerController', function ($http) {
         // console.log(vm.translationData[0].he)
 
     });
+    function addImages() {
+        for (let i = 0; i < data.length; i++) {
+            images.push({'image': data[i]['image link']})
+
+        }
+    }
+
+    addImages();
 
     function translateWords() {
-        let newFlowerArray;
         for (let elemento of vm.wordData) {
+            // console.log(elemento['image link'])
             for (let propiedad of Object.keys(elemento)) {
                 // console.log("propiedad " + propiedad)
                 elemento[propiedad] = vm.data2.he[elemento[propiedad]]
+                if (elemento['image link'] === undefined) {
+                    delete elemento['image link']
+
+                }
 
             }
         }
 
         vm.filteredWords = vm.wordData;
-        console.log(vm.filteredWords);
-        return vm.wordData
+        angular.merge(vm.newFilteredWithImages,vm.filteredWords, vm.arrImages )
+        vm.showMe = false
     }
+    function translateWordsRussian() {
+        for (let elemento of vm.wordData) {
+            // console.log(elemento['image link'])
+            for (let propiedad of Object.keys(elemento)) {
+                // console.log("propiedad " + propiedad)
+                elemento[propiedad] = vm.data2.ru[elemento[propiedad]]
+                if (elemento['image link'] === undefined) {
+                    delete elemento['image link']
 
+                }
 
+            }
+        }
+
+        vm.filteredWords = vm.wordData;
+        angular.merge(vm.newFilteredWithImages,vm.filteredWords, vm.arrImages )
+        vm.showMe = false
+    }
 })
 ;
 const data = [
@@ -69,7 +99,7 @@ const data = [
     {
         "name": "sunset safari",
         "season": "winter",
-        "image": "http://sierraflowerfinder.blob.core.windows.net/medias/FlowerPictures/792/safari%20sunset1.jpg"
+        "image link": "http://sierraflowerfinder.blob.core.windows.net/medias/FlowerPictures/792/safari%20sunset1.jpg"
     },
     {
         "name": "hypericum",
